@@ -3,7 +3,7 @@ package com.ds.arrays;
 public class Main {
 
     public static void main(String[] args) {
-	    // Contiguous block in memory
+	// Contiguous block in memory
         // Every element occupies the same amount of space in memory (4 bytes)
         int[] intArray = new int[11];
 
