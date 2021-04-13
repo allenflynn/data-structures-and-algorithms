@@ -3,6 +3,7 @@ package com.ds.linkedliststack;
 public class Main {
 
     public static void main(String[] args) {
+        // LIFO (last in first out)
         LinkedListStack stack = new LinkedListStack();
 
         stack.push(new Customer(1, "One"));

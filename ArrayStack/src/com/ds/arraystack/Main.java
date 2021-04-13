@@ -3,9 +3,10 @@ package com.ds.arraystack;
 public class Main {
 
     public static void main(String[] args) {
-	ArrayStack stack = new ArrayStack(10);
+        // LIFO (last in first out)
+	    ArrayStack stack = new ArrayStack(10);
 
-	stack.push(new Customer(1, "One"));
+	    stack.push(new Customer(1, "One"));
         stack.push(new Customer(2, "Two"));
         stack.push(new Customer(3, "Three"));
         stack.push(new Customer(4, "Four"));
