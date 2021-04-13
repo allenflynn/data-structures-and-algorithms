@@ -11,7 +11,7 @@ public class Main {
 
         CustomerLinkedList list = new CustomerLinkedList();
 
-        System.out.println("Empty: " + list.isEmpty() + "\n");
+        System.out.println("List is empty: " + list.isEmpty() + "\n");
 
         list.addToFront(customerOne);
         list.addToFront(customerTwo);
@@ -23,6 +23,24 @@ public class Main {
         list.addToEnd(customerFour);
         list.addToEnd(customerFive);
         System.out.println("After adding to the end");
+        list.printList();
+        System.out.println("Size: " + list.getSize() + "\n");
+
+        Customer customerSix = new Customer(6, "Six");
+        list.addBefore(customerSix, customerThree);
+        System.out.println("After adding before the existing (head)");
+        list.printList();
+        System.out.println("Size: " + list.getSize() + "\n");
+
+        Customer customerSeven = new Customer(7, "Seven");
+        list.addBefore(customerSeven, customerOne);
+        System.out.println("After adding before the existing");
+        list.printList();
+        System.out.println("Size: " + list.getSize() + "\n");
+
+        Customer customerEight = new Customer(8, "Eight");
+        list.addBefore(customerEight, new Customer(9, "Nine"));
+        System.out.println("After adding before the existing (not in the list)");
         list.printList();
         System.out.println("Size: " + list.getSize() + "\n");
 

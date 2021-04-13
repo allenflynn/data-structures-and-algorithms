@@ -80,6 +80,42 @@ public class CustomerLinkedList {
         return removedNode;
     }
 
+    public boolean addBefore(Customer newCustomer, Customer existingCustomer) {
+        if (isEmpty()) {
+            return false;
+        }
+
+        // Find the existing customer node
+        CustomerNode existingNode = headNode;
+        while (existingNode != null && !existingNode.getCustomer().equals(existingCustomer)) {
+            existingNode = existingNode.getNextNode();
+        }
+
+        if (existingNode == null) {
+            // The existing customer isn't in the list
+            return false;
+        }
+
+        // The previous customer node of the existing one (could be null if the existing one is head node)
+        CustomerNode previousNode = existingNode.getPreviousNode();
+
+        // The new customer node
+        CustomerNode newNode = new CustomerNode(newCustomer);
+
+        newNode.setPreviousNode(previousNode);
+        newNode.setNextNode(existingNode);
+        existingNode.setPreviousNode(newNode);
+        if (headNode == existingNode) {
+            headNode = newNode;
+        } else {
+            previousNode.setNextNode(newNode);
+        }
+
+        size++;
+
+        return true;
+    }
+
     public int getSize() {
         return size;
     }
