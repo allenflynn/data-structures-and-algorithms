@@ -4,8 +4,8 @@ import java.util.NoSuchElementException;
 
 public class ArrayQueue {
     private Customer[] queue;
-    private int headIndex;
-    private int tailIndex = -1;
+    private int head;
+    private int tail;
 
     // The capacity of the queue
     public ArrayQueue(int capacity) {
@@ -14,48 +14,52 @@ public class ArrayQueue {
 
     public void add(Customer customer) {
         // If the queue is full, resize the backing array (double the capacity)
-        if (size() == queue.length) {
+        if (size() == queue.length -1) {
             // The number of items before unwrapping
             int numItems = size();
 
             Customer[] newQueue = new Customer[2 * queue.length];
-            // Unwrap headIndex back to the front of the queue
-            System.arraycopy(queue, headIndex, newQueue, 0, queue.length - headIndex);
+            // Unwrap head back to the front of the queue
+            System.arraycopy(queue, head, newQueue, 0, queue.length - head);
             // Unwrap tailIndex back to the end of the queue
-            System.arraycopy(queue, 0 , newQueue, queue.length - headIndex, tailIndex + 1);
+            System.arraycopy(queue, 0 , newQueue, queue.length - head, tail);
             queue = newQueue;
 
-            headIndex = 0;
-            tailIndex = numItems -1;
+            head = 0;
+            tail = numItems;
+
+            System.out.println("\n*** Resizing ***");
         }
 
-        if (tailIndex == queue.length - 1) {
-            // Wrap tailIndex to the front of the queue
-            tailIndex = 0;
-            queue[tailIndex] = customer;
-        } else {
-            queue[++tailIndex] = customer;
-        }
+        // The tail points to the next available position
+        queue[tail++] = customer;
+        // If the queue is not full and tail is hitting the end
+        if (tail == queue.length) {
+            // Wrap tail to the front of the queue
+            tail = 0;
 
+            System.out.println("\n*** Wrapping ***");
+        }
     }
 
     public Customer remove() {
         if (size() == 0) {
             // Remove from empty queue
             throw new NoSuchElementException();
-        } else if (headIndex == queue.length) {
-            // Wrap headIndex back to the front of the queue
-            headIndex = 0;
+        } else if (head == queue.length) {
+            // Wrap head back to the front of the queue
+            head = 0;
         }
 
-        Customer customer = queue[headIndex];
-        queue[headIndex] = null;
+        Customer customer = queue[head];
+        queue[head] = null;
         if (size() == 1) {
             // Remove the only item on the queue
-            headIndex = 0;
-            tailIndex = -1;
+            head = 0;
+            tail = 0;
         } else {
-            headIndex++;
+            // The head points to the currently existing position
+            head++;
         }
 
         return customer;
@@ -67,35 +71,38 @@ public class ArrayQueue {
             throw new NoSuchElementException();
         }
 
-        return queue[headIndex];
+        return queue[head];
     }
 
     public int size() {
-        if (tailIndex == -1) {
-            return 0;
-        }
-        if (headIndex <= tailIndex) {
+        if (head <= tail) {
             // Items size on the queue
-            return tailIndex - headIndex + 1;
+            return tail - head;
         } else {
             // The queue has wrapped
-            return queue.length - (headIndex - tailIndex) + 1;
+            return tail - head + queue.length;
         }
     }
 
     public void printQueue() {
-       if (headIndex <= tailIndex) {
-            for (int i = headIndex; i <= tailIndex; i++) {
+        if (head <= tail) {
+            for (int i = head; i < tail; i++) {
                 System.out.println(queue[i]);
             }
+
+            System.out.println("Head: " + head);
+            System.out.println("Tail: " + tail);
         } else {
             // The queue has wrapped
-            for (int i = headIndex; i < queue.length; i++ ) {
+            for (int i = head; i < queue.length; i++ ) {
                 System.out.println(queue[i]);
             }
-            for (int i = 0; i <= tailIndex; i++) {
+            for (int i = 0; i < tail; i++) {
                 System.out.println(queue[i]);
             }
+
+            System.out.println("Tail: " + tail);
+            System.out.println("Head: " + head);
         }
     }
 

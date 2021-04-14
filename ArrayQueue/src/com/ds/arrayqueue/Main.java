@@ -14,7 +14,7 @@ public class Main {
         Customer customerNine = new Customer(9, "Nine");
 
         // FIFO (first in first out)
-        ArrayQueue queue = new ArrayQueue(3);
+        ArrayQueue queue = new ArrayQueue(4);
 
         queue.add(customerOne);
         queue.add(customerTwo);
