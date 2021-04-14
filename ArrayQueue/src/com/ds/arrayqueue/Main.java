@@ -8,34 +8,54 @@ public class Main {
         Customer customerThree = new Customer(3, "Three");
         Customer customerFour = new Customer(4, "Four");
         Customer customerFive = new Customer(5, "Five");
+        Customer customerSix = new Customer(6, "Six");
+        Customer customerSeven = new Customer(7, "Seven");
+        Customer customerEight = new Customer(8, "Eight");
+        Customer customerNine = new Customer(9, "Nine");
 
         // FIFO (first in first out)
-        ArrayQueue queue = new ArrayQueue(10);
+        ArrayQueue queue = new ArrayQueue(3);
 
         queue.add(customerOne);
         queue.add(customerTwo);
-        queue.add(customerThree);
-        queue.add(customerFour);
-        queue.add(customerFive);
         System.out.println("After adding to the queue");
         queue.printQueue();
 
         queue.remove();
+        System.out.println("\nAfter removing from the queue");
+        queue.printQueue();
+
+        queue.add(customerThree);
+        System.out.println("\nAfter adding to the queue");
+        queue.printQueue();
+
         queue.remove();
         System.out.println("\nAfter removing from the queue");
         queue.printQueue();
 
-        System.out.println("\nPeeked: " + queue.peek());
-        System.out.println("After peeking from the queue");
+        queue.add(customerFour);
+        System.out.println("\nAfter adding to the queue");
         queue.printQueue();
 
-        queue.remove();
-        queue.remove();
-        queue.remove();
-        System.out.println("\nAfter completely removing from the queue");
+        queue.add(customerFive);
+        System.out.println("\nAfter adding to the queue");
         queue.printQueue();
 
-        System.out.println("\nAfter removing from the empty queue");
-        queue.remove();
+        queue.add(customerSix);
+        System.out.println("\nAfter adding to the queue");
+        queue.printQueue();
+
+        queue.add(customerSeven);
+        System.out.println("\nAfter adding to the queue");
+        queue.printQueue();
+
+        queue.add(customerEight);
+        System.out.println("\nAfter adding to the queue");
+        queue.printQueue();
+
+        queue.add(customerNine);
+        System.out.println("\nAfter adding to the queue");
+        queue.printQueue();
+
     }
 }

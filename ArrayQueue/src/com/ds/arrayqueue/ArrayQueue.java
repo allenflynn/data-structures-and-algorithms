@@ -14,19 +14,38 @@ public class ArrayQueue {
 
     public void add(Customer customer) {
         // If the queue is full, resize the backing array (double the capacity)
-        if (tailIndex + 1 == queue.length) {
+        if (size() == queue.length) {
+            // The number of items before unwrapping
+            int numItems = size();
+
             Customer[] newQueue = new Customer[2 * queue.length];
-            System.arraycopy(queue, 0 , newQueue, 0, queue.length);
+            // Unwrap headIndex back to the front of the queue
+            System.arraycopy(queue, headIndex, newQueue, 0, queue.length - headIndex);
+            // Unwrap tailIndex back to the end of the queue
+            System.arraycopy(queue, 0 , newQueue, queue.length - headIndex, tailIndex + 1);
             queue = newQueue;
+
+            headIndex = 0;
+            tailIndex = numItems -1;
         }
 
-        queue[++tailIndex] = customer;
+        if (tailIndex == queue.length - 1) {
+            // Wrap tailIndex to the front of the queue
+            tailIndex = 0;
+            queue[tailIndex] = customer;
+        } else {
+            queue[++tailIndex] = customer;
+        }
+
     }
 
     public Customer remove() {
         if (size() == 0) {
             // Remove from empty queue
             throw new NoSuchElementException();
+        } else if (headIndex == queue.length) {
+            // Wrap headIndex back to the front of the queue
+            headIndex = 0;
         }
 
         Customer customer = queue[headIndex];
@@ -52,13 +71,31 @@ public class ArrayQueue {
     }
 
     public int size() {
-        // Items size on the queue
-        return tailIndex + 1 - headIndex;
+        if (tailIndex == -1) {
+            return 0;
+        }
+        if (headIndex <= tailIndex) {
+            // Items size on the queue
+            return tailIndex - headIndex + 1;
+        } else {
+            // The queue has wrapped
+            return queue.length - (headIndex - tailIndex) + 1;
+        }
     }
 
     public void printQueue() {
-        for (int i = headIndex; i <= tailIndex; i++) {
-            System.out.println(queue[i]);
+       if (headIndex <= tailIndex) {
+            for (int i = headIndex; i <= tailIndex; i++) {
+                System.out.println(queue[i]);
+            }
+        } else {
+            // The queue has wrapped
+            for (int i = headIndex; i < queue.length; i++ ) {
+                System.out.println(queue[i]);
+            }
+            for (int i = 0; i <= tailIndex; i++) {
+                System.out.println(queue[i]);
+            }
         }
     }
 
