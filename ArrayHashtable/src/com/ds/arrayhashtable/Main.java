@@ -26,5 +26,8 @@ public class Main {
 
         System.out.println("\nAfter getting from the hashtable");
         System.out.println(hashtable.get("one"));
+
+        System.out.println("\nAfter getting from the hashtable");
+        System.out.println(hashtable.get("two"));
     }
 }
