@@ -19,15 +19,26 @@ public class Main {
         hashtable.put("one", customerOne);
         hashtable.put("two", customerTwo);
         hashtable.put("three", customerThree);
-        hashtable.put("Four", customerFour);
-        hashtable.put("Five", customerFive);
+        hashtable.put("four", customerFour);
+        hashtable.put("five", customerFive);
         System.out.println("\nAfter putting into the hashtable");
         hashtable.printHashtable();
 
         System.out.println("\nAfter getting from the hashtable");
-        System.out.println(hashtable.get("one"));
+        System.out.println(hashtable.get("four"));
+        System.out.println("Key: four");
+
+        hashtable.remove("two");
+        hashtable.remove("three");
+        System.out.println("\nAfter removing from the hashtable");
+        hashtable.printHashtable();
 
         System.out.println("\nAfter getting from the hashtable");
-        System.out.println(hashtable.get("two"));
+        System.out.println(hashtable.get("four"));
+        System.out.println("Key: four");
+
+        hashtable.remove("o");
+        System.out.println("\nAfter removing from the hashtable at null position");
+        hashtable.printHashtable();
     }
 }

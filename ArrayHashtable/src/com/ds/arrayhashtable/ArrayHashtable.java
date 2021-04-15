@@ -2,95 +2,119 @@ package com.ds.arrayhashtable;
 
 public class ArrayHashtable {
 
-    //private Customer[] hashtable;
     private CustomerNode[]  hashtable;
 
     public ArrayHashtable() {
         hashtable = new CustomerNode[10];
     }
 
-    private int hash(String key) {
-        // Taking a string and hashing it to an int
+    // Taking a string and hashing it to an int
+    private int hashed(String key) {
         return key.length() % hashtable.length;
     }
 
+    // If the position in the array is occupied, return true
     private boolean occupied(int index) {
-        // If the position in the array is occupied, return true
         return hashtable[index] != null;
     }
 
-    public void put (String key, Customer customer) {
-        int hashedKey = hash(key);
+    public void put(String key, Customer customer) {
+        int index = hashed(key);
 
         // Linear probing
-        if (occupied(hashedKey)) {
-            int stopIndex = hashedKey;
-            // First probing
-            if (hashedKey == hashtable.length -1) {
-                // Wrapping (check from the start when hitting the end)
-                hashedKey = 0;
+        if (occupied(index)) {
+            int stopIndex = index;
+            // first probing
+            if (index == hashtable.length -1) {
+                // wrapping (check from the start when hitting the end)
+                index = 0;
             } else {
-                hashedKey++;
+                index++;
             }
-            // Probing the rest
-            while (occupied(hashedKey) && hashedKey != stopIndex) {
-                hashedKey = (hashedKey + 1) % hashtable.length;
+            // probing the rest
+            while (occupied(index) && index != stopIndex) {
+                // check to see if the next position is available
+                index = (index + 1) % hashtable.length;
             }
         }
 
-        if (occupied(hashedKey)) {
-            // The entire array has been checked
-            System.out.println("There is no position available at index " + hashedKey);
+        if (occupied(index)) {
+            // no position available after checking the entire array
+            System.out.println("There is no position available at index " + index);
         } else {
-            // If the position in the array is available, assign value into it
-            hashtable[hashedKey] = new CustomerNode(key, customer);
+            // assign value into it
+            hashtable[index] = new CustomerNode(key, customer);
+        }
+    }
+
+    public int findHashed(String key) {
+        int index = hashed(key);
+        CustomerNode customerNode = hashtable[index];
+
+        // The key stored in customerNode (which is the value stored in the hashtable) is found
+        if (customerNode != null && customerNode.key.equals(key)) {
+            return index;
+        }
+
+        // If key is not found, do the linear probing
+        int stopIndex = index;
+        // first probing
+        if (index == hashtable.length - 1) {
+            // wrapping (check from the start when hitting the end)
+            index = 0;
+        } else {
+            index++;
+        }
+        // probing the rest
+        while (hashtable[index] != null && !hashtable[index].key.equals(key) && index != stopIndex) {
+            // check to see if next position has the matched key
+            index++;
+        }
+
+        if (hashtable[index] != null && hashtable[index].key.equals(key)) {
+            // key is found after probing
+            return index;
+        } else {
+            return -1;
         }
     }
 
     public Customer get(String key) {
-        int hashedKey = findHashedKey(key);
-        if (hashedKey == -1) {
+        int index = findHashed(key);
+        if (index == -1) {
             return null;
         }
-        // Retrieve value in constant time
-        return hashtable[hashedKey].customer;
+
+        // retrieve value (in constant time)
+        return hashtable[index].customer;
     }
 
-    public int findHashedKey(String key) {
-        int hashedKey = hash(key);
-        CustomerNode customerNode = hashtable[hashedKey];
-
-        if (customerNode != null && customerNode.key.equals(key)) {
-            // The key stored in the hashtable is as expected
-            return hashedKey;
+    public Customer remove(String key) {
+        int index = findHashed(key);
+        if (index == -1) {
+            return null;
         }
+        Customer customer = hashtable[index].customer;
+        hashtable[index] = null;
 
-        // Linear probing
-        int stopIndex = hashedKey;
-        // First probing
-        if (hashedKey == hashtable.length - 1) {
-            // Wrapping (check from the start when hitting the end)
-            hashedKey = 0;
-        } else {
-            hashedKey++;
-        }
-        // Probing the rest
-        while (customerNode != null && !hashtable[hashedKey].key.equals(key) && hashedKey != stopIndex) {
-            hashedKey++;
+        // Rehashing to make the existing values in hashtable without null value in between
+        CustomerNode[] oldHashtable = hashtable;
+        hashtable = new CustomerNode[hashtable.length];
+        for (int i = 0; i < hashtable.length; i++) {
+            if (oldHashtable[i] != null) {
+                put(oldHashtable[i].key, oldHashtable[i].customer);
+            }
         }
 
-        if (hashedKey == stopIndex) {
-            return -1;
-        } else {
-            // The key stored in the hashtable is as expected after probing
-            return hashedKey;
-        }
+        return customer;
     }
 
     public void printHashtable() {
         for (int i = 0; i < hashtable.length; i++) {
             if (hashtable[i] != null) {
-                System.out.println(hashtable[i].customer);
+                System.out.println(hashtable[i].customer + " at position " + i);
+            } else {
+                System.out.println("Position " + i + " is null");
             }
         }
     }
