@@ -35,6 +35,23 @@ public class TreeNode {
         }
     }
 
+    // Travers in order (left node -> sub root node -> right node)
+    public void traverseInOrder() {
+        // recursively traverse the left subtree
+        if (leftNode != null) {
+            leftNode.traverseInOrder();
+        }
+
+        // print current node (sub root node)
+        System.out.println("Data = " + data);
+
+        // recursively traverse the right subtree
+        if (rightNode != null) {
+            rightNode.traverseInOrder();
+        }
+
+    }
+
     public int getData() {
         return data;
     }
