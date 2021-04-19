@@ -6,7 +6,7 @@ public class Tree {
 
     public void insert(int value) {
         if (rootNode == null) {
-            // empty tree
+            // insert into an empty tree
             rootNode = new TreeNode(value);
         } else {
             rootNode.insert(value);
@@ -18,4 +18,9 @@ public class Tree {
             rootNode.traverseInOrder();
         }
     }
+
+    public void delete(int value) {
+        rootNode.delete(rootNode, value);
+    }
+
 }

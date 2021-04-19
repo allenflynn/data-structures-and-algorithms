@@ -35,7 +35,7 @@ public class TreeNode {
         }
     }
 
-    // Travers in order (left node -> sub root node -> right node)
+    // Traverse in order (left node -> sub root node -> right node)
     public void traverseInOrder() {
         // recursively traverse the left subtree
         if (leftNode != null) {
@@ -49,7 +49,39 @@ public class TreeNode {
         if (rightNode != null) {
             rightNode.traverseInOrder();
         }
+    }
 
+    public TreeNode delete(TreeNode subRootNode, int value) {
+        if (value < data) {
+            subRootNode.setLeftNode(leftNode.delete(leftNode, value));
+        } else if (value > data) {
+            subRootNode.setRightNode(rightNode.delete(rightNode, value));
+        } else {
+            // node to delete has 0 or 1 child node
+            if (leftNode == null) {
+                return rightNode;
+            }
+            if (rightNode == null) {
+                return leftNode;
+            }
+
+            // Node to delete has 2 children
+            // replace the value in the subRootNode with the biggest value from the left subtree
+            data = leftNode.max();
+            // delete the node that has the biggest value in the left subtree
+            setLeftNode(leftNode.delete(leftNode, data));
+        }
+
+        return subRootNode;
+    }
+
+    // Start at the current node, traverse down to the right edges to find the max value
+    public int max() {
+        if (rightNode == null) {
+            return data;
+        } else {
+            return rightNode.max();
+        }
     }
 
     public int getData() {

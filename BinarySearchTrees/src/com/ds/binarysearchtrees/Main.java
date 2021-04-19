@@ -13,6 +13,9 @@ public class Main {
         tree.insert(26);
         tree.insert(22);
         tree.insert(32);
+        tree.insert(17);
+
+        tree.delete(27);
 
         tree.traverseInOrder();
     }
